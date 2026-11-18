@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Dog API — Практика #2</title>
+</head>
+<body>
+    <h1>Породы собак</h1>
+
+    <form method="get">
+        <button type="submit" name="show_breeds" value="1">
+            Получить список всех пород
+        </button>
+    </form>
+
+    <br>
+
+    <form method="get">
+        <label for="breeds">Введите породы через запятую:</label><br><br>
+        <input type="text" id="breeds" name="breeds" size="40" value="{{ query }}">
+        <button type="submit">Показать фото</button>
+    </form>
+
+    {% if dog_images %}
+        <h2>Фотографии выбранных пород:</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            {% for dog in dog_images %}
+                <div>
+                    <h3>{{ dog.breed }}</h3>
+                    {% if dog.url %}
+                        <img src="{{ dog.url }}" alt="{{ dog.breed }}" width="300">
+                    {% else %}
+                        <p>Порода не найдена</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if all_breeds %}
+        <h2>Список всех пород:</h2>
+        <ol>
+            {% for breed in all_breeds %}
+                <li>{{ breed }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+</body>
+</html>

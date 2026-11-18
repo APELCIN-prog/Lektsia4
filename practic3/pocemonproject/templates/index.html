@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Покемоны — Практика #3</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="right-column">
+        <div>
+            <h1>Покемоны</h1>
+
+            <form method="get">
+                <button type="submit" name="show_pocemons" value="1">
+                    Получить список всех покемонов
+                </button>
+            </form>
+
+            <br>
+
+            <form method="get">
+                <label for="pocemons">Найти покемона: </label><br><br>
+                <input type="text" id="pocemons" name="pocemons" size="40" value="{{ query }}">
+                <button type="submit">Найти</button>
+            </form>
+        </div>
+
+        <div>
+            {% if all_pocemons %}
+                <h2>Список всех покемонов:</h2>
+                <ol>
+                    {% for pocemon in all_pocemons %}
+                        <li>{{ pocemon }}</li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </div>
+
+        <div>
+            {% if find_pocemon %}
+                {% for key, value in find_pocemon.items %}
+                    {% if value == find_pocemon.image %}
+                        <img src="{{ find_pocemon.image }}" width="300">
+                    {% else %}
+                        <p>{{ key }}: {{ value }}</p>
+                    {% endif %}
+                {% endfor %}
+                <form method="get">
+                    <button type="submit" name="add_pokemon" value="{{ find_pocemon.name }}">
+                    Добавить в команду
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+        </div>
+
+        <div class="left-column">
+            <form method="get">
+            <h1>Моя команда</h1>
+            {% if my_command %}
+                <ol>
+                    {% for pocemon in my_command %}
+                        <li>
+                            {{ pocemon }}
+                            <button type="submit" name="find_poсemon" value="{{ pocemon }}">Статистика</button>
+                            <button type="submit" name="delete_poсemon" value="{{ pocemon }}">Удалить</button>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+            <h1>Сражение</h1>
+            <label>
+            Покемон 1:
+            <input type="text" name="pocemon1" size="40" value="{{ pocemon1 }}"><br><br>
+            Покемон 2:
+            <input type="text" name="pocemon2" size="40" value="{{ pocemon2 }}"><br><br>
+            <button type="submit" size="100px">Бой</button>
+            </label>
+
+            </form>
+            {% if winner_text %}
+                <h3>{{ winner_text }}</h3>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
